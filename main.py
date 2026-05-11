@@ -1,10 +1,13 @@
-from persona import Persona
+from jugador import Jugador
 
 
-persona1 = Persona(
+jugador1 = Jugador(
     "Carlos Pérez",
     "12345678",
-    25
+    25,
+    "Arrime"
 )
 
-print(persona1)
+jugador1.registrar_puntos(8)
+
+print(jugador1)
