@@ -17,19 +17,29 @@ class Jugador(Persona):
             edad
         )
 
-        self.posicion = posicion
-        self.puntos = 0
+        self.__posicion = posicion
+        self.__puntos = 0
+
+    @property
+    def posicion(self):
+
+        return self.__posicion
+
+    @property
+    def puntos(self):
+
+        return self.__puntos
 
     def registrar_puntos(self, puntos):
 
-        self.puntos += puntos
+        self.__puntos += puntos
 
     def mostrar_info(self):
 
         return (
             f"{super().mostrar_info()} | "
-            f"Posición: {self.posicion} | "
-            f"Puntos: {self.puntos}"
+            f"Posición: {self.__posicion} | "
+            f"Puntos: {self.__puntos}"
         )
 
     def __str__(self):
