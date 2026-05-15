@@ -1,6 +1,10 @@
 from jugador import Jugador
 from equipo import Equipo
 from partido import Partido
+from liga import Liga
+
+
+liga = Liga("Club Demócrata")
 
 
 jugador1 = Jugador(
@@ -23,6 +27,9 @@ equipo2 = Equipo("Los Titanes")
 equipo1.agregar_jugador(jugador1)
 equipo2.agregar_jugador(jugador2)
 
+liga.registrar_equipo(equipo1)
+liga.registrar_equipo(equipo2)
+
 partido1 = Partido(
     equipo1,
     equipo2,
@@ -30,13 +37,12 @@ partido1 = Partido(
     8
 )
 
-ganador = partido1.determinar_ganador()
+partido1.determinar_ganador()
 
-print(partido1)
+liga.registrar_partido(partido1)
 
-print(f"\nGanador: {ganador}")
+liga.mostrar_equipos()
 
-print()
+liga.mostrar_partidos()
 
-print(equipo1)
-print(equipo2)
+liga.tabla_posiciones()
