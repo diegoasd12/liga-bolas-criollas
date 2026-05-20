@@ -1,3 +1,6 @@
+import json
+
+
 class Liga:
 
     def __init__(self, nombre):
@@ -47,6 +50,54 @@ class Liga:
         for partido in self.partidos:
 
             print(partido)
+
+    def guardar_datos(self):
+
+        datos = []
+
+        for equipo in self.equipos:
+
+            datos.append({
+                "nombre": equipo.nombre,
+                "victorias": equipo.victorias,
+                "derrotas": equipo.derrotas
+            })
+
+        with open(
+            "datos/equipos.json",
+            "w"
+        ) as archivo:
+
+            json.dump(
+                datos,
+                archivo,
+                indent=4
+            )
+
+    def cargar_datos(self):
+
+        try:
+
+            with open(
+                "datos/equipos.json",
+                "r"
+            ) as archivo:
+
+                datos = json.load(archivo)
+
+                print("\nDATOS GUARDADOS\n")
+
+                for equipo in datos:
+
+                    print(
+                        f"{equipo['nombre']} | "
+                        f"Victorias: {equipo['victorias']} | "
+                        f"Derrotas: {equipo['derrotas']}"
+                    )
+
+        except FileNotFoundError:
+
+            print("No existen datos guardados.")
 
     def __str__(self):
 

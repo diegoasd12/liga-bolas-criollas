@@ -19,7 +19,9 @@ while True:
     print("4. Ver equipos")
     print("5. Ver partidos")
     print("6. Ver tabla")
-    print("7. Salir")
+    print("7. Guardar datos")
+    print("8. Cargar datos")
+    print("9. Salir")
 
     opcion = input("\nSeleccione una opción: ")
 
@@ -49,7 +51,16 @@ while True:
 
             nombre = input("Nombre del jugador: ")
             cedula = input("Cédula: ")
-            edad = int(input("Edad: "))
+
+            try:
+
+                edad = int(input("Edad: "))
+
+            except ValueError:
+
+                print("La edad debe ser numérica.")
+                continue
+
             posicion = input("Posición: ")
 
             jugador = Jugador(
@@ -118,6 +129,16 @@ while True:
         liga.tabla_posiciones()
 
     elif opcion == "7":
+
+        liga.guardar_datos()
+
+        print("Datos guardados correctamente.")
+
+    elif opcion == "8":
+
+        liga.cargar_datos()
+
+    elif opcion == "9":
 
         print("Saliendo del sistema...")
         break
