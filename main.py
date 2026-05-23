@@ -9,9 +9,10 @@ liga = Liga("Club Demócrata")
 
 while True:
 
-    print("\n==============================")
-    print(" LIGA DE BOLAS CRIOLLAS ")
-    print("==============================")
+    print("\n===================================")
+    print("   SISTEMA DE BOLAS CRIOLLAS")
+    print("        CLUB DEMÓCRATA")
+    print("===================================")
 
     print("1. Registrar equipo")
     print("2. Registrar jugador")
@@ -33,7 +34,7 @@ while True:
 
         liga.registrar_equipo(equipo)
 
-        print("Equipo registrado correctamente.")
+        print("\n[✓] Equipo registrado correctamente.")
 
     elif opcion == "2":
 
@@ -72,7 +73,7 @@ while True:
 
             equipo_encontrado.agregar_jugador(jugador)
 
-            print("Jugador agregado correctamente.")
+            print("\n[✓] Jugador agregado correctamente.")
 
         else:
 
@@ -132,7 +133,7 @@ while True:
 
         liga.guardar_datos()
 
-        print("Datos guardados correctamente.")
+        print("\n[✓] Datos guardados correctamente.")
 
     elif opcion == "8":
 
@@ -145,4 +146,4 @@ while True:
 
     else:
 
-        print("Opción inválida.")
+        print("\n[!] Opción inválida.")
