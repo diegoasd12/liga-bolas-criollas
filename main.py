@@ -6,6 +6,16 @@ from liga import Liga
 
 liga = Liga("Club Demócrata")
 
+# frontend - react (typescript / javascript)
+# frontend - react (typescript / javascript)
+
+# fastapi - backend
+
+
+# android / kotlin / java / back/fron
+
+# tkinter / python
+
 
 while True:
 
