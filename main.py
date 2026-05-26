@@ -14,134 +14,197 @@ while True:
     print("        CLUB DEMÓCRATA")
     print("===================================")
 
-    print("1. Registrar equipo")
-    print("2. Registrar jugador")
-    print("3. Registrar partido")
-    print("4. Ver equipos")
-    print("5. Ver partidos")
-    print("6. Ver tabla")
-    print("7. Guardar datos")
-    print("8. Cargar datos")
-    print("9. Salir")
+    print("\n------ MENÚ PRINCIPAL ------")
+    print("1. Registrar")
+    print("2. Ver información")
+    print("3. Guardar datos")
+    print("4. Cargar datos")
+    print("5. Salir")
 
     opcion = input("\nSeleccione una opción: ")
 
+    # =========================
+    # SUBMENÚ REGISTRAR
+    # =========================
+
     if opcion == "1":
 
-        nombre = input("Nombre del equipo: ")
+        while True:
 
-        equipo = Equipo(nombre)
+            print("\n------ REGISTRAR ------")
+            print("1. Registrar equipo")
+            print("2. Registrar jugador")
+            print("3. Registrar partido")
+            print("4. Volver")
 
-        liga.registrar_equipo(equipo)
+            subopcion = input("\nSeleccione una opción: ")
 
-        print("\n[✓] Equipo registrado correctamente.")
+            # Registrar equipo
+
+            if subopcion == "1":
+
+                nombre = input("Nombre del equipo: ")
+
+                equipo = Equipo(nombre)
+
+                liga.registrar_equipo(equipo)
+
+                print("\n[✓] Equipo registrado correctamente.")
+
+            # Registrar jugador
+
+            elif subopcion == "2":
+
+                nombre_equipo = input("Equipo: ")
+
+                equipo_encontrado = None
+
+                for equipo in liga.equipos:
+
+                    if equipo.nombre == nombre_equipo:
+
+                        equipo_encontrado = equipo
+
+                if equipo_encontrado:
+
+                    nombre = input("Nombre del jugador: ")
+                    cedula = input("Cédula: ")
+
+                    try:
+
+                        edad = int(input("Edad: "))
+
+                    except ValueError:
+
+                        print("La edad debe ser numérica.")
+                        continue
+
+                    posicion = input("Posición: ")
+
+                    jugador = Jugador(
+                        nombre,
+                        cedula,
+                        edad,
+                        posicion
+                    )
+
+                    equipo_encontrado.agregar_jugador(jugador)
+
+                    print("\n[✓] Jugador agregado correctamente.")
+
+                else:
+
+                    print("Equipo no encontrado.")
+
+            # Registrar partido
+
+            elif subopcion == "3":
+
+                nombre1 = input("Equipo 1: ")
+                nombre2 = input("Equipo 2: ")
+
+                equipo1 = None
+                equipo2 = None
+
+                for equipo in liga.equipos:
+
+                    if equipo.nombre == nombre1:
+                        equipo1 = equipo
+
+                    if equipo.nombre == nombre2:
+                        equipo2 = equipo
+
+                if equipo1 and equipo2:
+
+                    puntos1 = int(input("Puntos equipo 1: "))
+                    puntos2 = int(input("Puntos equipo 2: "))
+
+                    partido = Partido(
+                        equipo1,
+                        equipo2,
+                        puntos1,
+                        puntos2
+                    )
+
+                    ganador = partido.determinar_ganador()
+
+                    liga.registrar_partido(partido)
+
+                    print(f"\nGanador: {ganador}")
+
+                else:
+
+                    print("Uno de los equipos no existe.")
+
+            elif subopcion == "4":
+
+                break
+
+            else:
+
+                print("\n[!] Opción inválida.")
+
+    # =========================
+    # SUBMENÚ VER
+    # =========================
 
     elif opcion == "2":
 
-        nombre_equipo = input("Equipo: ")
+        while True:
 
-        equipo_encontrado = None
+            print("\n------ VER INFORMACIÓN ------")
+            print("1. Ver equipos")
+            print("2. Ver partidos")
+            print("3. Ver tabla")
+            print("4. Volver")
 
-        for equipo in liga.equipos:
+            subopcion = input("\nSeleccione una opción: ")
 
-            if equipo.nombre == nombre_equipo:
+            if subopcion == "1":
 
-                equipo_encontrado = equipo
+                liga.mostrar_equipos()
 
-        if equipo_encontrado:
+            elif subopcion == "2":
 
-            nombre = input("Nombre del jugador: ")
-            cedula = input("Cédula: ")
+                liga.mostrar_partidos()
 
-            try:
+            elif subopcion == "3":
 
-                edad = int(input("Edad: "))
+                liga.tabla_posiciones()
 
-            except ValueError:
+            elif subopcion == "4":
 
-                print("La edad debe ser numérica.")
-                continue
+                break
 
-            posicion = input("Posición: ")
+            else:
 
-            jugador = Jugador(
-                nombre,
-                cedula,
-                edad,
-                posicion
-            )
+                print("\n[!] Opción inválida.")
 
-            equipo_encontrado.agregar_jugador(jugador)
-
-            print("\n[✓] Jugador agregado correctamente.")
-
-        else:
-
-            print("Equipo no encontrado.")
+    # =========================
+    # GUARDAR
+    # =========================
 
     elif opcion == "3":
-
-        nombre1 = input("Equipo 1: ")
-        nombre2 = input("Equipo 2: ")
-
-        equipo1 = None
-        equipo2 = None
-
-        for equipo in liga.equipos:
-
-            if equipo.nombre == nombre1:
-                equipo1 = equipo
-
-            if equipo.nombre == nombre2:
-                equipo2 = equipo
-
-        if equipo1 and equipo2:
-
-            puntos1 = int(input("Puntos equipo 1: "))
-            puntos2 = int(input("Puntos equipo 2: "))
-
-            partido = Partido(
-                equipo1,
-                equipo2,
-                puntos1,
-                puntos2
-            )
-
-            ganador = partido.determinar_ganador()
-
-            liga.registrar_partido(partido)
-
-            print(f"Ganador: {ganador}")
-
-        else:
-
-            print("Uno de los equipos no existe.")
-
-    elif opcion == "4":
-
-        liga.mostrar_equipos()
-
-    elif opcion == "5":
-
-        liga.mostrar_partidos()
-
-    elif opcion == "6":
-
-        liga.tabla_posiciones()
-
-    elif opcion == "7":
 
         liga.guardar_datos()
 
         print("\n[✓] Datos guardados correctamente.")
 
-    elif opcion == "8":
+    # =========================
+    # CARGAR
+    # =========================
+
+    elif opcion == "4":
 
         liga.cargar_datos()
 
-    elif opcion == "9":
+    # =========================
+    # SALIR
+    # =========================
 
-        print("Saliendo del sistema...")
+    elif opcion == "5":
+
+        print("\nSaliendo del sistema...")
         break
 
     else:
