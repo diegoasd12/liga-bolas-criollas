@@ -18,7 +18,9 @@ class Jugador(Persona):
         )
 
         self.__posicion = posicion
-        self.__puntos = 0
+
+        self.__bolas_lanzadas = 0
+        self.__bolas_acertadas = 0
 
     @property
     def posicion(self):
@@ -26,20 +28,43 @@ class Jugador(Persona):
         return self.__posicion
 
     @property
-    def puntos(self):
+    def bolas_lanzadas(self):
 
-        return self.__puntos
+        return self.__bolas_lanzadas
 
-    def registrar_puntos(self, puntos):
+    @property
+    def bolas_acertadas(self):
 
-        self.__puntos += puntos
+        return self.__bolas_acertadas
+
+    def registrar_estadisticas(
+        self,
+        lanzadas,
+        acertadas
+    ):
+
+        self.__bolas_lanzadas += lanzadas
+
+        self.__bolas_acertadas += acertadas
+
+    def calcular_porcentaje(self):
+
+        if self.__bolas_lanzadas == 0:
+
+            return 0
+
+        return (
+            self.__bolas_acertadas /
+            self.__bolas_lanzadas
+        ) * 100
 
     def mostrar_info(self):
 
         return (
             f"{super().mostrar_info()} | "
             f"Posición: {self.__posicion} | "
-            f"Puntos: {self.__puntos}"
+            f"Acierto: "
+            f"{self.calcular_porcentaje():.2f}%"
         )
 
     def __str__(self):

@@ -1,5 +1,8 @@
 import json
 
+from equipo import Equipo
+from jugador import Jugador
+
 
 class Liga:
 
@@ -8,6 +11,7 @@ class Liga:
         self.nombre = nombre
 
         self.equipos = []
+
         self.partidos = []
 
     def registrar_equipo(self, equipo):
@@ -32,7 +36,8 @@ class Liga:
 
         equipos_ordenados = sorted(
             self.equipos,
-            key=lambda equipo: equipo.victorias,
+            key=lambda equipo:
+            equipo.victorias,
             reverse=True
         )
 
@@ -40,7 +45,8 @@ class Liga:
 
             print(
                 f"{equipo.nombre} | "
-                f"Victorias: {equipo.victorias}"
+                f"Victorias: {equipo.victorias} | "
+                f"Derrotas: {equipo.derrotas}"
             )
 
     def mostrar_partidos(self):
@@ -57,10 +63,44 @@ class Liga:
 
         for equipo in self.equipos:
 
+            jugadores = []
+
+            for jugador in equipo.jugadores:
+
+                jugadores.append({
+
+                    "nombre":
+                    jugador.nombre,
+
+                    "cedula":
+                    jugador.cedula,
+
+                    "edad":
+                    jugador.edad,
+
+                    "posicion":
+                    jugador.posicion,
+
+                    "lanzadas":
+                    jugador.bolas_lanzadas,
+
+                    "acertadas":
+                    jugador.bolas_acertadas
+                })
+
             datos.append({
-                "nombre": equipo.nombre,
-                "victorias": equipo.victorias,
-                "derrotas": equipo.derrotas
+
+                "nombre":
+                equipo.nombre,
+
+                "victorias":
+                equipo.victorias,
+
+                "derrotas":
+                equipo.derrotas,
+
+                "jugadores":
+                jugadores
             })
 
         with open(
@@ -71,7 +111,8 @@ class Liga:
             json.dump(
                 datos,
                 archivo,
-                indent=4
+                indent=4,
+                ensure_ascii=False
             )
 
     def cargar_datos(self):
@@ -85,20 +126,72 @@ class Liga:
 
                 datos = json.load(archivo)
 
-                print("\nDATOS GUARDADOS\n")
+                self.equipos = []
 
-                for equipo in datos:
+                for dato in datos:
 
-                    print(
-                        f"{equipo['nombre']} | "
-                        f"Victorias: {equipo['victorias']} | "
-                        f"Derrotas: {equipo['derrotas']}"
+                    equipo = Equipo(
+                        dato["nombre"]
+                    )
+
+                    equipo.victorias = dato[
+                        "victorias"
+                    ]
+
+                    equipo.derrotas = dato[
+                        "derrotas"
+                    ]
+
+                    for datos_jugador in dato[
+                        "jugadores"
+                    ]:
+
+                        jugador = Jugador(
+
+                            datos_jugador[
+                                "nombre"
+                            ],
+
+                            datos_jugador[
+                                "cedula"
+                            ],
+
+                            datos_jugador[
+                                "edad"
+                            ],
+
+                            datos_jugador[
+                                "posicion"
+                            ]
+                        )
+
+                        jugador.registrar_estadisticas(
+
+                            datos_jugador[
+                                "lanzadas"
+                            ],
+
+                            datos_jugador[
+                                "acertadas"
+                            ]
+                        )
+
+                        equipo.agregar_jugador(
+                            jugador
+                        )
+
+                    self.equipos.append(
+                        equipo
                     )
 
         except FileNotFoundError:
 
-            print("No existen datos guardados.")
+            print(
+                "No existen datos guardados."
+            )
 
     def __str__(self):
 
-        return f"Liga: {self.nombre}"
+        return (
+            f"Liga: {self.nombre}"
+        )
