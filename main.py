@@ -34,7 +34,7 @@ while True:
     opcion = input("\nSeleccione una opción: ")
 
     # =========================
-    # SUBMENÚ REGISTRAR
+    # REGISTRAR
     # =========================
 
     if opcion == "1":
@@ -49,19 +49,27 @@ while True:
 
             subopcion = input("\nSeleccione una opción: ")
 
-            # Registrar equipo
+            # =========================
+            # REGISTRAR EQUIPO
+            # =========================
 
             if subopcion == "1":
 
-                nombre = input("Nombre del equipo: ")
+                nombre = input(
+                    "Nombre del equipo: "
+                )
 
                 equipo = Equipo(nombre)
 
                 liga.registrar_equipo(equipo)
 
-                print("\n[✓] Equipo registrado correctamente.")
+                print(
+                    "\n[✓] Equipo registrado correctamente."
+                )
 
-            # Registrar jugador
+            # =========================
+            # REGISTRAR JUGADOR
+            # =========================
 
             elif subopcion == "2":
 
@@ -77,7 +85,10 @@ while True:
 
                 if equipo_encontrado:
 
-                    nombre = input("Nombre del jugador: ")
+                    nombre = input(
+                        "Nombre del jugador: "
+                    )
+
                     cedula = input("Cédula: ")
 
                     try:
@@ -86,7 +97,10 @@ while True:
 
                     except ValueError:
 
-                        print("La edad debe ser numérica.")
+                        print(
+                            "La edad debe ser numérica."
+                        )
+
                         continue
 
                     posicion = input("Posición: ")
@@ -98,15 +112,21 @@ while True:
                         posicion
                     )
 
-                    equipo_encontrado.agregar_jugador(jugador)
+                    equipo_encontrado.agregar_jugador(
+                        jugador
+                    )
 
-                    print("\n[✓] Jugador agregado correctamente.")
+                    print(
+                        "\n[✓] Jugador agregado correctamente."
+                    )
 
                 else:
 
-                    print("Equipo no encontrado.")
+                    print("\n[!] Equipo no encontrado.")
 
-            # Registrar partido
+            # =========================
+            # REGISTRAR PARTIDO
+            # =========================
 
             elif subopcion == "3":
 
@@ -119,15 +139,22 @@ while True:
                 for equipo in liga.equipos:
 
                     if equipo.nombre == nombre1:
+
                         equipo1 = equipo
 
                     if equipo.nombre == nombre2:
+
                         equipo2 = equipo
 
                 if equipo1 and equipo2:
 
-                    puntos1 = int(input("Puntos equipo 1: "))
-                    puntos2 = int(input("Puntos equipo 2: "))
+                    puntos1 = int(
+                        input("Puntos equipo 1: ")
+                    )
+
+                    puntos2 = int(
+                        input("Puntos equipo 2: ")
+                    )
 
                     partido = Partido(
                         equipo1,
@@ -142,9 +169,71 @@ while True:
 
                     print(f"\nGanador: {ganador}")
 
+                    print(
+                        "\nREGISTRO DE ESTADÍSTICAS"
+                    )
+
+                    # =====================
+                    # EQUIPO 1
+                    # =====================
+
+                    for jugador in equipo1.jugadores:
+
+                        print(
+                            f"\nJugador: "
+                            f"{jugador.nombre}"
+                        )
+
+                        lanzadas = int(
+                            input(
+                                "Bolas lanzadas: "
+                            )
+                        )
+
+                        acertadas = int(
+                            input(
+                                "Bolas acertadas: "
+                            )
+                        )
+
+                        jugador.registrar_estadisticas(
+                            lanzadas,
+                            acertadas
+                        )
+
+                    # =====================
+                    # EQUIPO 2
+                    # =====================
+
+                    for jugador in equipo2.jugadores:
+
+                        print(
+                            f"\nJugador: "
+                            f"{jugador.nombre}"
+                        )
+
+                        lanzadas = int(
+                            input(
+                                "Bolas lanzadas: "
+                            )
+                        )
+
+                        acertadas = int(
+                            input(
+                                "Bolas acertadas: "
+                            )
+                        )
+
+                        jugador.registrar_estadisticas(
+                            lanzadas,
+                            acertadas
+                        )
+
                 else:
 
-                    print("Uno de los equipos no existe.")
+                    print(
+                        "\n[!] Uno de los equipos no existe."
+                    )
 
             elif subopcion == "4":
 
@@ -155,7 +244,7 @@ while True:
                 print("\n[!] Opción inválida.")
 
     # =========================
-    # SUBMENÚ VER
+    # VER INFORMACIÓN
     # =========================
 
     elif opcion == "2":
@@ -166,7 +255,8 @@ while True:
             print("1. Ver equipos")
             print("2. Ver partidos")
             print("3. Ver tabla")
-            print("4. Volver")
+            print("4. Ver mejores jugadores")
+            print("5. Volver")
 
             subopcion = input("\nSeleccione una opción: ")
 
@@ -184,6 +274,10 @@ while True:
 
             elif subopcion == "4":
 
+                liga.mejores_jugadores()
+
+            elif subopcion == "5":
+
                 break
 
             else:
@@ -198,7 +292,9 @@ while True:
 
         liga.guardar_datos()
 
-        print("\n[✓] Datos guardados correctamente.")
+        print(
+            "\n[✓] Datos guardados correctamente."
+        )
 
     # =========================
     # CARGAR

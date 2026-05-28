@@ -23,11 +23,16 @@ class Equipo:
 
     def mostrar_jugadores(self):
 
-        print(f"\nEquipo: {self.nombre}")
+        print(f"\nJugadores del equipo {self.nombre}:")
+
+        if len(self.jugadores) == 0:
+
+            print("No hay jugadores registrados.")
+            return
 
         for jugador in self.jugadores:
 
-            print(jugador)
+            print(f" - {jugador}")
 
     def __str__(self):
 

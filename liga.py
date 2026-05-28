@@ -26,6 +26,8 @@ class Liga:
 
             print(equipo)
 
+            equipo.mostrar_jugadores()
+
     def tabla_posiciones(self):
 
         print("\nTABLA DE POSICIONES\n")
@@ -41,6 +43,34 @@ class Liga:
             print(
                 f"{equipo.nombre} | "
                 f"Victorias: {equipo.victorias}"
+            )
+    
+    def mejores_jugadores(self):
+
+        jugadores = []
+
+        for equipo in self.equipos:
+
+            for jugador in equipo.jugadores:
+
+                jugadores.append(
+                    (jugador, equipo.nombre)
+                )
+
+        jugadores.sort(
+            key=lambda dato: dato[0].calcular_porcentaje(),
+            reverse=True
+        )
+
+        print("\nMEJORES JUGADORES\n")
+
+        for jugador, equipo in jugadores:
+
+            print(
+                f"{jugador.nombre} | "
+                f"Equipo: {equipo} | "
+                f"Porcentaje de acierto: "
+                f"{jugador.calcular_porcentaje():.2f}%"
             )
 
     def mostrar_partidos(self):
