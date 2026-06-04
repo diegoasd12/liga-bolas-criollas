@@ -1,5 +1,4 @@
 class Persona:
-
     def __init__(self, nombre, cedula, edad):
 
         self.nombre = nombre
@@ -8,11 +7,7 @@ class Persona:
 
     def mostrar_info(self):
 
-        return (
-            f"Nombre: {self.nombre} | "
-            f"Cédula: {self.cedula} | "
-            f"Edad: {self.edad}"
-        )
+        return f"Nombre: {self.nombre} | Cédula: {self.cedula} | Edad: {self.edad}"
 
     def __str__(self):
 

@@ -2,20 +2,9 @@ from persona import Persona
 
 
 class Jugador(Persona):
+    def __init__(self, nombre, cedula, edad, posicion):
 
-    def __init__(
-        self,
-        nombre,
-        cedula,
-        edad,
-        posicion
-    ):
-
-        super().__init__(
-            nombre,
-            cedula,
-            edad
-        )
+        super().__init__(nombre, cedula, edad)
 
         self.__posicion = posicion
 
@@ -37,11 +26,7 @@ class Jugador(Persona):
 
         return self.__bolas_acertadas
 
-    def registrar_estadisticas(
-        self,
-        lanzadas,
-        acertadas
-    ):
+    def registrar_estadisticas(self, lanzadas, acertadas):
 
         self.__bolas_lanzadas += lanzadas
 
@@ -50,13 +35,9 @@ class Jugador(Persona):
     def calcular_porcentaje(self):
 
         if self.__bolas_lanzadas == 0:
-
             return 0
 
-        return (
-            self.__bolas_acertadas /
-            self.__bolas_lanzadas
-        ) * 100
+        return (self.__bolas_acertadas / self.__bolas_lanzadas) * 100
 
     def mostrar_info(self):
 

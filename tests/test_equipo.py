@@ -5,26 +5,15 @@ from jugador import Jugador
 
 
 class TestEquipo(unittest.TestCase):
-
     def test_agregar_jugador(self):
 
         equipo = Equipo("Heroes de falcon")
 
-        jugador = Jugador(
-            "Diego",
-            "32239654",
-            18,
-            "Arrimador"
-        )
+        jugador = Jugador("Diego", "32239654", 18, "Arrimador")
 
-        equipo.agregar_jugador(
-            jugador
-        )
+        equipo.agregar_jugador(jugador)
 
-        self.assertEqual(
-            len(equipo.jugadores),
-            1
-        )
+        self.assertEqual(len(equipo.jugadores), 1)
 
     def test_registrar_victoria(self):
 
@@ -32,10 +21,7 @@ class TestEquipo(unittest.TestCase):
 
         equipo.registrar_victoria()
 
-        self.assertEqual(
-            equipo.victorias,
-            1
-        )
+        self.assertEqual(equipo.victorias, 1)
 
     def test_registrar_derrota(self):
 
@@ -43,12 +29,8 @@ class TestEquipo(unittest.TestCase):
 
         equipo.registrar_derrota()
 
-        self.assertEqual(
-            equipo.derrotas,
-            1
-        )
+        self.assertEqual(equipo.derrotas, 1)
 
 
 if __name__ == "__main__":
-
     unittest.main()

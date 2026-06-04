@@ -1,12 +1,5 @@
 class Partido:
-
-    def __init__(
-        self,
-        equipo1,
-        equipo2,
-        puntos1,
-        puntos2
-    ):
+    def __init__(self, equipo1, equipo2, puntos1, puntos2):
 
         self.equipo1 = equipo1
         self.equipo2 = equipo2
@@ -17,14 +10,12 @@ class Partido:
     def determinar_ganador(self):
 
         if self.puntos1 > self.puntos2:
-
             self.equipo1.registrar_victoria()
             self.equipo2.registrar_derrota()
 
             return self.equipo1.nombre
 
         elif self.puntos2 > self.puntos1:
-
             self.equipo2.registrar_victoria()
             self.equipo1.registrar_derrota()
 

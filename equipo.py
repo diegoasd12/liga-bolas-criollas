@@ -1,5 +1,4 @@
 class Equipo:
-
     def __init__(self, nombre):
 
         self.nombre = nombre
@@ -26,7 +25,6 @@ class Equipo:
         print(f"\nEquipo: {self.nombre}")
 
         for jugador in self.jugadores:
-
             print(jugador)
 
     def __str__(self):
