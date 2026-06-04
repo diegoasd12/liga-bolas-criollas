@@ -10,12 +10,44 @@ from partido import Partido
 
 liga = Liga("Club Demócrata")
 
+
+def buscar_equipo(nombre):
+
+    for equipo in liga.equipos:
+        if equipo.nombre == nombre:
+            return equipo
+
+    return None
+
+
+def crear_ventana(titulo, ancho, alto):
+
+    ventana = tk.Toplevel(root)
+
+    ventana.title(titulo)
+
+    ventana.geometry(f"{ancho}x{alto}")
+
+    ventana.resizable(False, False)
+
+    return ventana
+
+
+def error(texto):
+
+    messagebox.showerror("Error", texto)
+
+
+def exito(texto):
+
+    messagebox.showinfo("Éxito", texto)
+
 def registrar_equipo():
 
     nombre = entry_equipo.get()
 
     if nombre == "":
-        messagebox.showerror("Error", "Ingrese un nombre.")
+        error("Ingrese un nombre.")
 
         return
 
@@ -23,23 +55,13 @@ def registrar_equipo():
 
     liga.registrar_equipo(equipo)
 
-    messagebox.showinfo("Éxito", "Equipo registrado correctamente.")
+    exito("Equipo registrado correctamente.")
 
     entry_equipo.delete(0, tk.END)
 
-
-# ==================================================
-# REGISTRAR JUGADOR
-# ==================================================
-
-
 def ventana_registrar_jugador():
 
-    ventana = tk.Toplevel(root)
-
-    ventana.title("Registrar Jugador")
-
-    ventana.geometry("400x450")
+    ventana = crear_ventana("Registrar Jugador", 400, 450)
 
     tk.Label(ventana, text="Nombre").pack(pady=5)
 
@@ -76,36 +98,28 @@ def ventana_registrar_jugador():
     def guardar_jugador():
 
         try:
-            nombre = entry_nombre.get()
+            jugador = Jugador(
+                entry_nombre.get(),
+                entry_cedula.get(),
+                int(entry_edad.get()),
+                entry_posicion.get(),
+            )
 
-            cedula = entry_cedula.get()
+            equipo = buscar_equipo(combo_equipos.get())
 
-            edad = int(entry_edad.get())
+            if not equipo:
+                error("Equipo no encontrado.")
 
-            posicion = entry_posicion.get()
+                return
 
-            equipo_nombre = combo_equipos.get()
+            equipo.agregar_jugador(jugador)
 
-            equipo_encontrado = None
+            exito("Jugador registrado.")
 
-            for equipo in liga.equipos:
-                if equipo.nombre == equipo_nombre:
-                    equipo_encontrado = equipo
-
-            if equipo_encontrado:
-                jugador = Jugador(nombre, cedula, edad, posicion)
-
-                equipo_encontrado.agregar_jugador(jugador)
-
-                messagebox.showinfo("Éxito", "Jugador registrado.")
-
-                ventana.destroy()
-
-            else:
-                messagebox.showerror("Error", "Equipo no encontrado.")
+            ventana.destroy()
 
         except ValueError:
-            messagebox.showerror("Error", "Datos inválidos.")
+            error("Datos inválidos.")
 
     tk.Button(ventana, text="Guardar Jugador", width=20, command=guardar_jugador).pack(
         pady=20
@@ -113,11 +127,7 @@ def ventana_registrar_jugador():
 
 def ventana_registrar_partido():
 
-    ventana = tk.Toplevel(root)
-
-    ventana.title("Registrar Partido")
-
-    ventana.geometry("500x650")
+    ventana = crear_ventana("Registrar Partido", 500, 650)
 
     tk.Label(ventana, text="Equipo 1").pack(pady=5)
 
@@ -160,48 +170,31 @@ def ventana_registrar_partido():
 
         entradas_jugadores.clear()
 
-        equipo1 = None
-        equipo2 = None
+        equipo1 = buscar_equipo(combo1.get())
 
-        for equipo in liga.equipos:
-            if equipo.nombre == combo1.get():
-                equipo1 = equipo
-
-            if equipo.nombre == combo2.get():
-                equipo2 = equipo
+        equipo2 = buscar_equipo(combo2.get())
 
         fila = 0
 
-        if equipo1:
-            tk.Label(frame_stats, text=f"Jugadores {equipo1.nombre}").grid(
-                row=fila, column=0, columnspan=3
-            )
+        tk.Label(frame_stats, text="Jugador").grid(row=fila, column=0)
 
-            fila += 1
+        tk.Label(frame_stats, text="Lanzadas").grid(row=fila, column=1)
 
-            for jugador in equipo1.jugadores:
-                tk.Label(frame_stats, text=jugador.nombre).grid(row=fila, column=0)
+        tk.Label(frame_stats, text="Acertadas").grid(row=fila, column=2)
 
-                entry_lanzadas = tk.Entry(frame_stats, width=10)
+        fila += 1
 
-                entry_lanzadas.grid(row=fila, column=1)
+        for equipo in [equipo1, equipo2]:
+            if not equipo:
+                continue
 
-                entry_acertadas = tk.Entry(frame_stats, width=10)
-
-                entry_acertadas.grid(row=fila, column=2)
-
-                entradas_jugadores.append((jugador, entry_lanzadas, entry_acertadas))
-
-                fila += 1
-
-        if equipo2:
-            tk.Label(frame_stats, text=f"Jugadores {equipo2.nombre}").grid(
+            tk.Label(frame_stats, text=f"Jugadores {equipo.nombre}").grid(
                 row=fila, column=0, columnspan=3, pady=10
             )
 
             fila += 1
 
-            for jugador in equipo2.jugadores:
+            for jugador in equipo.jugadores:
                 tk.Label(frame_stats, text=jugador.nombre).grid(row=fila, column=0)
 
                 entry_lanzadas = tk.Entry(frame_stats, width=10)
@@ -223,41 +216,34 @@ def ventana_registrar_partido():
     def guardar_partido():
 
         try:
-            equipo1 = None
-            equipo2 = None
+            if combo1.get() == combo2.get():
+                error("Seleccione equipos diferentes.")
 
-            for equipo in liga.equipos:
-                if equipo.nombre == combo1.get():
-                    equipo1 = equipo
+                return
 
-                if equipo.nombre == combo2.get():
-                    equipo2 = equipo
+            equipo1 = buscar_equipo(combo1.get())
 
-            puntos1 = int(entry_p1.get())
+            equipo2 = buscar_equipo(combo2.get())
 
-            puntos2 = int(entry_p2.get())
-
-            partido = Partido(equipo1, equipo2, puntos1, puntos2)
+            partido = Partido(
+                equipo1, equipo2, int(entry_p1.get()), int(entry_p2.get())
+            )
 
             ganador = partido.determinar_ganador()
 
             liga.registrar_partido(partido)
 
-            for datos in entradas_jugadores:
-                jugador = datos[0]
-
-                lanzadas = int(datos[1].get())
-
-                acertadas = int(datos[2].get())
-
-                jugador.registrar_estadisticas(lanzadas, acertadas)
+            for jugador, lanzadas, acertadas in entradas_jugadores:
+                jugador.registrar_estadisticas(
+                    int(lanzadas.get()), int(acertadas.get())
+                )
 
             messagebox.showinfo("Partido", f"Ganador: {ganador}")
 
             ventana.destroy()
 
         except ValueError:
-            messagebox.showerror("Error", "Datos inválidos.")
+            error("Datos inválidos.")
 
     tk.Button(ventana, text="Guardar Partido", width=20, command=guardar_partido).pack(
         pady=20
@@ -265,11 +251,7 @@ def ventana_registrar_partido():
 
 def ver_equipos():
 
-    ventana = tk.Toplevel(root)
-
-    ventana.title("Equipos")
-
-    ventana.geometry("700x500")
+    ventana = crear_ventana("Equipos", 700, 500)
 
     texto = tk.Text(ventana, width=80, height=30)
 
@@ -285,11 +267,7 @@ def ver_equipos():
 
 def tabla_posiciones():
 
-    ventana = tk.Toplevel(root)
-
-    ventana.title("Tabla")
-
-    ventana.geometry("500x400")
+    ventana = crear_ventana("Tabla", 500, 400)
 
     texto = tk.Text(ventana, width=60, height=20)
 
@@ -309,11 +287,7 @@ def tabla_posiciones():
 
 def mejores_jugadores():
 
-    ventana = tk.Toplevel(root)
-
-    ventana.title("Mejores Jugadores")
-
-    ventana.geometry("500x400")
+    ventana = crear_ventana("Mejores Jugadores", 500, 400)
 
     texto = tk.Text(ventana, width=60, height=20)
 
@@ -339,6 +313,7 @@ def guardar_datos():
 
     messagebox.showinfo("Guardar", "Datos guardados.")
 
+
 def cargar_datos():
 
     liga.cargar_datos()
@@ -350,6 +325,8 @@ root = tk.Tk()
 root.title("Liga de Bolas Criollas")
 
 root.geometry("550x700")
+
+root.resizable(False, False)
 
 titulo = tk.Label(root, text="CLUB DEMÓCRATA", font=("Arial", 22, "bold"))
 
@@ -369,27 +346,18 @@ tk.Button(root, text="Registrar Equipo", width=25, command=registrar_equipo).pac
     pady=10
 )
 
-tk.Button(
-    root, text="Registrar Jugador", width=25, command=ventana_registrar_jugador
-).pack(pady=10)
+botones = [
+    ("Registrar Jugador", ventana_registrar_jugador),
+    ("Registrar Partido", ventana_registrar_partido),
+    ("Ver Equipos", ver_equipos),
+    ("Tabla de Posiciones", tabla_posiciones),
+    ("Mejores Jugadores", mejores_jugadores),
+    ("Guardar Datos", guardar_datos),
+    ("Cargar Datos", cargar_datos),
+]
 
-tk.Button(
-    root, text="Registrar Partido", width=25, command=ventana_registrar_partido
-).pack(pady=10)
-
-tk.Button(root, text="Ver Equipos", width=25, command=ver_equipos).pack(pady=10)
-
-tk.Button(root, text="Tabla de Posiciones", width=25, command=tabla_posiciones).pack(
-    pady=10
-)
-
-tk.Button(root, text="Mejores Jugadores", width=25, command=mejores_jugadores).pack(
-    pady=10
-)
-
-tk.Button(root, text="Guardar Datos", width=25, command=guardar_datos).pack(pady=10)
-
-tk.Button(root, text="Cargar Datos", width=25, command=cargar_datos).pack(pady=10)
+for texto, comando in botones:
+    tk.Button(root, text=texto, width=25, command=comando).pack(pady=10)
 
 tk.Button(root, text="Salir", width=25, command=root.quit).pack(pady=25)
 
