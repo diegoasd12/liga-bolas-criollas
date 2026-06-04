@@ -42,6 +42,7 @@ def exito(texto):
 
     messagebox.showinfo("Éxito", texto)
 
+
 def registrar_equipo():
 
     nombre = entry_equipo.get()
@@ -58,6 +59,7 @@ def registrar_equipo():
     exito("Equipo registrado correctamente.")
 
     entry_equipo.delete(0, tk.END)
+
 
 def ventana_registrar_jugador():
 
@@ -124,6 +126,7 @@ def ventana_registrar_jugador():
     tk.Button(ventana, text="Guardar Jugador", width=20, command=guardar_jugador).pack(
         pady=20
     )
+
 
 def ventana_registrar_partido():
 
@@ -249,6 +252,7 @@ def ventana_registrar_partido():
         pady=20
     )
 
+
 def ver_equipos():
 
     ventana = crear_ventana("Equipos", 700, 500)
@@ -264,6 +268,7 @@ def ver_equipos():
             texto.insert(tk.END, f"   - {jugador}\n")
 
         texto.insert(tk.END, "\n")
+
 
 def tabla_posiciones():
 
@@ -284,6 +289,7 @@ def tabla_posiciones():
             f"Victorias: {equipo.victorias} | "
             f"Derrotas: {equipo.derrotas}\n",
         )
+
 
 def mejores_jugadores():
 
@@ -307,6 +313,7 @@ def mejores_jugadores():
             f"{jugador.nombre} | {equipo} | {jugador.calcular_porcentaje():.2f}%\n",
         )
 
+
 def guardar_datos():
 
     liga.guardar_datos()
@@ -319,6 +326,7 @@ def cargar_datos():
     liga.cargar_datos()
 
     messagebox.showinfo("Cargar", "Datos cargados.")
+
 
 root = tk.Tk()
 
