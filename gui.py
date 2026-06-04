@@ -75,7 +75,7 @@ def ventana_registrar_jugador():
     )
 
     entry_cedula.pack()
-
+#s
     tk.Label(
         ventana,
         text="Edad"
