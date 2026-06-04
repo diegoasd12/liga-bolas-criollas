@@ -8,7 +8,7 @@ class TestJugador(unittest.TestCase):
     def test_calcular_porcentaje(self):
 
         jugador = Jugador(
-            "Juan",
+            "Tansa",
             "123",
             20,
             "Puntero"
