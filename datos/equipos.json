@@ -1,1 +1,14 @@
-[]
+[
+    {
+        "nombre": "a",
+        "victorias": 0,
+        "derrotas": 0,
+        "jugadores": []
+    },
+    {
+        "nombre": "b",
+        "victorias": 0,
+        "derrotas": 0,
+        "jugadores": []
+    }
+]
